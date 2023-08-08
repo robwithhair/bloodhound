@@ -222,7 +222,7 @@ statusCodeIs r resp = inRange r $ NHTS.statusCode (responseStatus $ getResponse 
 --    successful Elasticsearch lookups or lookups that couldn't find the document.
 data EsResult a = EsResult
   { _index :: Text,
-    _type :: Text,
+    _type :: Maybe Text,
     _id :: Text,
     foundResult :: Maybe (EsResultFound a)
   }
