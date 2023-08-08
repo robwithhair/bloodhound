@@ -245,7 +245,7 @@ instance (FromJSON a) => FromJSON (EsResult a) where
         else return Nothing
     EsResult
       <$> v .: "_index"
-      <*> v .: "_type"
+      <*> v .:? "_type"
       <*> v .: "_id"
       <*> pure fr
   parseJSON _ = empty
