@@ -42,6 +42,7 @@ library
       Database.Bloodhound.Internal.Suggest
   other-modules:
       Bloodhound.Import
+      Database.Bloodhound.Common.RuntimeMapping
       Database.Bloodhound.Common.Script
       Database.Bloodhound.Internal.Client.BHRequest
       Database.Bloodhound.Internal.Client.Doc
