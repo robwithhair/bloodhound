@@ -428,6 +428,9 @@ module Database.Bloodhound.Types
     withQueries,
     mkEndpoint,
     getEndpoint,
+    RuntimeMappings,
+    RuntimeMapping(..),
+    RuntimeFieldType(..),
     BHResponse (..),
     ParsedEsResponse,
   )
