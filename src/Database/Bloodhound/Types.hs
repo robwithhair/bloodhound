@@ -447,62 +447,13 @@ import Database.Bloodhound.Internal.PointInTime
 import Database.Bloodhound.Internal.Query
 import Database.Bloodhound.Internal.Sort
 import Database.Bloodhound.Internal.Suggest
+import Database.Bloodhound.Common.RuntimeMapping
 
 -- | 'unpackId' is a silly convenience function that gets used once.
 unpackId :: DocId -> Text
 unpackId (DocId docId) = docId
 
 type TrackSortScores = Bool
-
-type RuntimeMappings = X.KeyMap RuntimeMapping
-
-data RuntimeFieldType = BooleanRuntimeField
-                      | CompositeRuntimeField
-                      | DateRuntimeField
-                      | DoubleRuntimeField
-                      | GeoPointRuntimeField
-                      | IpRuntimeField
-                      | KeywordRuntimeField
-                      | LongRuntimeField
-                      | LookupRuntimeField
-                      deriving (Show)
-
-instance ToJSON RuntimeFieldType where
-  toJSON BooleanRuntimeField = String "boolean"
-  toJSON BooleanRuntimeField = String "boolean"
-  toJSON CompositeRuntimeField = String "composite"
-  toJSON DateRuntimeField = String "date"
-  toJSON DoubleRuntimeField = String "double"
-  toJSON GeoPointRuntimeField = String "geo_point"
-  toJSON IpRuntimeField = String "ip"
-  toJSON KeywordRuntimeField = String "keyword"
-  toJSON LongRuntimeField = String "long"
-  toJSON LookupRuntimeField = String "lookup"
-
-instance FromJSON RuntimeFieldType where
-  parseJSON v = withText "RuntimeFieldType" f
-    where f "boolean" = pure BooleanRuntimeField
-          f "composite" = pure CompositeRuntimeField
-          f "date" = pure DateRuntimeField
-          f "double" = pure DoubleRuntimeField
-          f "geo_point" = pure GeoPointRuntimeField
-          f "ip" = pure IpRuntimeField
-          f "keyword" = pure KeywordRuntimeField
-          f "long" = pure LongRuntimeField
-          f "lookup" = pure LookupRuntimeField
-          f x = fail $ "Unrecognised runtime field type: " <> x
-
-data RuntimeMapping = RuntimeMapping
-  { runtimeMappingType :: RuntimeFieldType,
-    runtimeMappingScript :: Text
-  }
-
-instance ToJSON RuntimeMapping where
-  toJSON (RuntimeMapping t s) =
-    omitNulls [ "type" .= t,
-                "script" .= s
-              ]
-
 
 data Search = Search
   { queryBody :: Maybe Query,
@@ -557,7 +508,7 @@ instance ToJSON Search where
           "search_after" .= sAfter,
           "fields" .= sFields,
           "script_fields" .= sScriptFields,
-          "runtime_mappings" .= sRuntimeMappings
+          "runtime_mappings" .= sRuntimeMappings,
           "_source" .= sSource,
           "suggest" .= sSuggest,
           "pit" .= pPointInTime
